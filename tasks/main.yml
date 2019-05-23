@@ -1,0 +1,67 @@
+---
+# tasks file for roles/install
+#
+#
+    
+############### MacOSX Machine ####################
+- name: Install Desired Packages on MacOS
+  become: False
+  homebrew: name={{ item }} state=installed
+  with_items: "{{ input_package }}"
+  when:
+          - ansible_distribution == "MacOSX"
+          - packages == '2'
+
+- name: Install Default Packages on MacOS
+  become: False
+  homebrew: name={{ item }} state=installed
+  with_items: "{{ default_package }}"
+  when:
+          - ansible_distribution == "MacOSX"
+          - packages == '1'
+
+############## Ubuntu Machine #####################
+- name: Install Desired Packaged on Ubuntu Machine
+  apt: name={{ item }} state=installed update_cache=True
+  with_items: "{{ input_package }}"
+  when:
+          - ansible_distribution == "Ubuntu"
+          - packages == '2'
+
+- name: Install Default Packages on Ubuntu Machine 
+  apt: name={{ item }} state=installed
+  with_items: "{{ default_package }}"
+  when:
+          - ansible_distribution == "Ubuntu"
+          - packages == '1'
+
+############### Fedora Machine #####################
+- name: Install Desired Packages on Fedora Machine
+  dnf: name={{ item }} state=installed update_cache=True
+  with_items: "{{ input_package }}"  
+  when:
+          - ansible_distribution == "Fedora"
+          - packages == '2'
+
+- name: Install Default Packages on Fedora Machine
+  dnf: name={{ item }} state=installed update_cache=True
+  with_items: "{{ default_package }}"
+  when:
+          - ansible_distribution == "Fedora"
+          - packages == '1'
+
+############### CentOS Machine ######################
+- name: Install Desired Packages on CentOS Machine
+  yum: name={{ item }} state=installed update_cache=True
+  with_items: "{{ input_package }}"
+  when:
+          - ansible_distribution == "CentOS"
+          - packages == '2'
+
+- name: Install Default Packages on CentOS Machine
+  yum: name={{ item }} state=installed update_cache=True
+  with_items: "{{ default_package }}"
+  when:
+          - ansible_distribution == "CentOS"
+          - packages == '1'
+

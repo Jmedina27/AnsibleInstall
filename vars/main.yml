@@ -1,0 +1,13 @@
+---
+# vars file for roles/install
+#
+
+input_package:
+        - "{{ package.split(',') }}"
+
+default_package:
+        - vim
+        - tree
+        - git
+        - whois
+        - wget
